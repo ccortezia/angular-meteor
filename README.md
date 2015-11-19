@@ -7,9 +7,17 @@
 [![ng-conf](http://img.youtube.com/vi/_mu6BWsnaPM/0.jpg)](https://www.youtube.com/watch?v=_mu6BWsnaPM)
 
 ## Quick start
+
+### Meteor Project
 1. Install [Meteor](http://docs.meteor.com/#quickstart) `$ curl https://install.meteor.com | /bin/sh`
 2. Create a new meteor app using `$ meteor create myapp` or navigate to the root of your existing app
-3. Install urigo:angular `$ meteor add urigo:angular`
+3. Install Angular `$ meteor add angular`
+
+### Meteor client side - with Bower
+> Use Meteor as a service in your existing non Meteor angular application
+
+1. Install [meteor-client-side](https://github.com/idanwe/meteor-client-side) `$ bower install meteor-client-side`
+2. Install angular-meteor `$ bower install angular-meteor`
 
 ## Resources
 - [Getting started tutorial](https://angular-meteor.com/tutorial)
@@ -21,8 +29,9 @@
 - [Change Log, updates and breaking changes](https://github.com/Urigo/angular-meteor/releases)
 - [Roadmap - Trello board](https://trello.com/b/Wj9U0ulk/angular-meteor)
 - [angular-meteor Blog](https://medium.com/angular-meteor)
-- [angular-meteor Yeoman generator](https://github.com/ndxbxrme/generator-angular-meteor)
-- [Meteor package - urigo:angular](https://atmospherejs.com/urigo/angular)
+- Starters - [angular-meteor Yeoman generator](https://github.com/ndxbxrme/generator-angular-meteor), [Angular-Meteor-Boilerplate with TypeScript](https://github.com/ShMcK/Angular-Meteor-Boilerplate)
+- [Meteor package - angular](https://atmospherejs.com/meteor/angular)
+- [Angular-Meteor Platform](https://github.com/planet-training/angular-meteor-platform) - No Blaze, plain HTML
 - [Awesome Meteor](https://github.com/Urigo/awesome-meteor) - A curated, community driven list of awesome Meteor packages, libraries, resources and shiny thing
 
 ## Contributing
@@ -37,7 +46,7 @@ If you want to contribute and need help or don't know what should you do, you ca
 
 ## Contributor Developer Setup
 
-### Run local urigo:angular in your project
+### Run local angular-meteor in your project
 
 Create your Meteor Project
 
@@ -46,10 +55,10 @@ meteor create myProject
 cd myProject
 ```
 
-Fork angular-meteor and clone the angular-meteor library to another directory named `urigo:angular`
+Fork angular-meteor and clone the angular-meteor library to another directory named `angular`
 ```
-mkdir urigo:angular
-git clone https://github.com/[your_username]/angular-meteor.git urigo:angular
+mkdir angular
+git clone https://github.com/[your_username]/angular-meteor.git angular
 ```
 
 Create a `packages` directory under your project's root folder and link your forked repo
@@ -58,7 +67,7 @@ Create a `packages` directory under your project's root folder and link your for
 cd myProject
 mkdir packages
 cd packages
-ln -s ~/path_to_your_repos/urigo\:angular
+ln -s ~/path_to_your_repos/angular
 ```
 
 Now you can start using your own copy of the `angular-meteor` project from `myProject`.
@@ -72,10 +81,20 @@ In the command line
 
 Then go to `localhost:3000` in your browser
 
+### Contributing to documentation and tutorials.
+
+Whether it's a typo, some clarification, or a whole new feature - here's how to get started:
+
+1. Follow the steps to get started as a developer for angular-meteor.
+2. Change into the .docs directory and then angular-meteor `cd .docs/angular-meteor`
+3. Run the app for the documentation `meteor`
+4. Start tweaking and updating!
+
+
 ## Usage
 ### Table of Contents
 - [App initialization](#app-initialization)
-- [Templating[#templating]
+- [Templating](#templating)
 - [Binding to Meteor Collections](#binding-to-meteor-collections)
 - [Routing](#routing)
 - [User service](#user)
@@ -95,9 +114,13 @@ angular
 
 ### Templating
 
-You need to write your Angular template markup in `.ng.html` files, since Meteor won't look at those files as Spacebars templates. Tying HTML and `.ng.html` files together isn't very difficult, we can simply use Angular's `ng-include`.
+Before writing any `angular` templates, make sure to remove `blaze-html-templates` first, so there won't be any conflicts with the templates engines:
 
-Please note that the names of the templates to Angular will be their URL as Meteor sees it when minifying the '.ng.html' files. **Hence every template URL is relative to the root of the Meteor project, and contains no leading forward slash.** This is important to note when working with `ng-include` to include templates.
+```
+blaze-html-templates
+```
+
+Please note that the names of the templates to Angular will be their URL as Meteor sees it when minifying the `html` files. **Hence every template URL is relative to the root of the Meteor project, and contains no leading forward slash.** This is important to note when working with `ng-include` to include templates.
 
 `client/index.html`:
 
@@ -107,12 +130,12 @@ Please note that the names of the templates to Angular will be their URL as Mete
 </head>
 
 <body ng-app="myModule">
-    <ng-include src="'client/views/user.ng.html'"></ng-include>
-    <ng-include src="'client/views/settings.ng.html'"></ng-include>
+    <ng-include src="'client/views/user.html'"></ng-include>
+    <ng-include src="'client/views/settings.html'"></ng-include>
 </body>
 ```
 
-`client/views/user.ng.html`:
+`client/views/user.html`:
 
 ```html
 <div>
@@ -155,19 +178,11 @@ Use to official AngularUI ui-router Meteor package - [angularui:angular-ui-route
 
 More on how to actually use angular-ui-router in [step 5 of the tutorial](http://angular-meteor.com/tutorial/step_05)
 
-### &lt;meteor-include&gt;
+### &lt;blaze-template&gt;
 
-You can include Meteor's native templates with the [meteor-include](http://angular-meteor.com/api/meteor-include) directive.
+Include Blaze templates in your [angular-meteor](http://angular-meteor.com/) application.
 
-```html
-<template name="todoList">
-    A couple of todos
-</template>
-
-<meteor-include src='todoList'></meteor-include>
-```
-
-Read more on meteor-include, using parameters and binding Meteor templates to Angular's scope in the [API docs](http://angular-meteor.com/api/meteor-include).
+Use the [urigo:angular-blaze-template package](https://github.com/urigo/angular-blaze-template/). 
 
 ### User Authentication
 
